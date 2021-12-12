@@ -12,9 +12,10 @@ public class Mover : MonoBehaviour
     // Start is called before the first frame update
     void Update()
     {
-        if(Input.GetMouseButtonDown(0)){
+        if(Input.GetMouseButton(0)){
             MoveToCursor();
         }
+        UpdateAnimator();
         //Debug.DrawRay(lastRay.origin, lastRay.direction * 100);
     }
 
@@ -28,5 +29,11 @@ public class Mover : MonoBehaviour
         //GetComponent<NavMeshAgent>().destination = target.position;
     }
 
-    // Update is called once per frame
+    private void UpdateAnimator(){
+        Vector3 velocity = GetComponent<NavMeshAgent>().velocity;
+        Vector3 localVelocity = transform.InverseTransformDirection(velocity);
+        float speed = Mathf.Abs(velocity.z);
+        GetComponent<Animator>().SetFloat("forwardSpeed", speed);
+    }
+
 }
