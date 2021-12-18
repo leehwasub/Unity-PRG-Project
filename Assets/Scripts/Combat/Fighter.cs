@@ -1,7 +1,8 @@
 using RPG.Movement;
 using UnityEngine;
-using RPG.Core;
+using RPG.Combat;
 using System;
+using RPG.Core;
 
 namespace RPG.Combat{
 
@@ -12,7 +13,7 @@ namespace RPG.Combat{
         [SerializeField] float weaponDamage = 5f;
 
         Health target;
-        float timeSinceLastAttack = 0.0f;
+        float timeSinceLastAttack = Mathf.Infinity;
 
         private void Start() {
             
@@ -57,12 +58,12 @@ namespace RPG.Combat{
             return Vector3.Distance(this.transform.position, target.transform.position) < weaponRange;
         }
 
-        public void Attack(CombatTarget combatTarget){
+        public void Attack(GameObject combatTarget){
             GetComponent<ActionScheduler>().StartAction(this);
             target = combatTarget.GetComponent<Health>();
         }
 
-        public bool CanAttack(CombatTarget combatTarget)
+        public bool CanAttack(GameObject combatTarget)
         {
             if(combatTarget == null) return false;
             Health target = combatTarget.GetComponent<Health>();
