@@ -40,6 +40,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chaseDistance: 5
   suspicionTime: 5
+  wayPointDwellTime: 3
+  patrolPath: {fileID: 0}
+  wayPointTolerance: 1
 --- !u!1001 &6220787139652683450
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -114,7 +117,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 587604679844013361, guid: 33238b7da99d1294e8935cef559fa9e6, type: 3}
       propertyPath: healthPoints
-      value: 20
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 2249161431277060838, guid: 33238b7da99d1294e8935cef559fa9e6, type: 3}
       propertyPath: m_RootOrder
@@ -122,15 +125,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2249161431277060838, guid: 33238b7da99d1294e8935cef559fa9e6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.0786476
+      value: 8.945638
       objectReference: {fileID: 0}
     - target: {fileID: 2249161431277060838, guid: 33238b7da99d1294e8935cef559fa9e6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.00000047683716
+      value: 29.8
       objectReference: {fileID: 0}
     - target: {fileID: 2249161431277060838, guid: 33238b7da99d1294e8935cef559fa9e6, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.485447
+      value: -35.336674
       objectReference: {fileID: 0}
     - target: {fileID: 2249161431277060838, guid: 33238b7da99d1294e8935cef559fa9e6, type: 3}
       propertyPath: m_LocalRotation.w
@@ -162,11 +165,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2249161431277060858, guid: 33238b7da99d1294e8935cef559fa9e6, type: 3}
       propertyPath: m_Name
-      value: Enemy
+      value: Enemy (1)
       objectReference: {fileID: 0}
     - target: {fileID: 6778946105716567081, guid: 33238b7da99d1294e8935cef559fa9e6, type: 3}
       propertyPath: weaponRange
       value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6778946105716567081, guid: 33238b7da99d1294e8935cef559fa9e6, type: 3}
+      propertyPath: weaponDamage
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 33238b7da99d1294e8935cef559fa9e6, type: 3}

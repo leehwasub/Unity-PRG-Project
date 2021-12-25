@@ -12,6 +12,8 @@ namespace RPG.Control{
         [SerializeField] float wayPointDwellTime = 3f;
         [SerializeField] PatrolPath patrolPath;
         [SerializeField] float wayPointTolerance = 1f;
+        [Range(0, 1)]
+        [SerializeField] float patrolSpeedFraction = 0.2f;
 
         private int currentWayPointIndex = 0;
 
@@ -71,7 +73,7 @@ namespace RPG.Control{
             }
             if (timeSinceArrivedAtWaypoint > wayPointDwellTime)
             {
-                mover.StartMoveAction(nextPosition);
+                mover.StartMoveAction(nextPosition, patrolSpeedFraction);
             }
         }
 

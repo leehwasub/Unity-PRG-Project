@@ -9,6 +9,7 @@ namespace RPG.Control
     public class PlayerController : MonoBehaviour
     {
         Health health;
+
         private void Start() {
             health = GetComponent<Health>();
         }
@@ -44,7 +45,7 @@ namespace RPG.Control
             {
                 if (Input.GetMouseButton(0))
                 {
-                    GetComponent<Mover>().StartMoveAction(hit.point);
+                    GetComponent<Mover>().StartMoveAction(hit.point, 1f);
                 }
                 return true;
             }
