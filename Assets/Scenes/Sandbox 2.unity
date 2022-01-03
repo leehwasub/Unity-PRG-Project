@@ -572,6 +572,14 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 2.5016475
       objectReference: {fileID: 0}
+    - target: {fileID: 3313234505502898709, guid: ef4aff694bc627341bf3fe27ffa74f3a, type: 3}
+      propertyPath: weaponDamage
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 5020781629683778966, guid: ef4aff694bc627341bf3fe27ffa74f3a, type: 3}
+      propertyPath: uniqueIdentifier
+      value: player
+      objectReference: {fileID: 0}
     - target: {fileID: 7845269231537394906, guid: ef4aff694bc627341bf3fe27ffa74f3a, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

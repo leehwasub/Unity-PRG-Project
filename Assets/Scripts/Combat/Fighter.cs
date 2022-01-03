@@ -1,22 +1,41 @@
 using RPG.Movement;
 using UnityEngine;
-using RPG.Combat;
-using System;
 using RPG.Core;
+using RPG.Saving;
+using RPG.Resources;
+using RPG.Stats;
+using System.Collections.Generic;
 
 namespace RPG.Combat{
 
-    public class Fighter : MonoBehaviour, IAction
+    public class Fighter : MonoBehaviour, IAction, ISaveable, IModifierProvider
     {
-        [SerializeField] float weaponRange = 2f;
         [SerializeField] float timeBetweenAttacks = 2f;
-        [SerializeField] float weaponDamage = 5f;
+        [SerializeField] Transform rightHandTransform;
+        [SerializeField] Transform leftHandTransform;
+        [SerializeField] Weapon defaultWeapon;
+        [SerializeField] string defaultWeaponName = "Unarmed";
 
         Health target;
         float timeSinceLastAttack = Mathf.Infinity;
+        Weapon currentWeapon;
 
         private void Start() {
-            
+            if(currentWeapon == null){
+                EquipWeapon(defaultWeapon);
+            }
+        }
+
+        public void EquipWeapon(Weapon weapon)
+        {
+            if(weapon == null) return;
+            currentWeapon = weapon;
+            Animator animator = GetComponent<Animator>();
+            weapon.Spawn(rightHandTransform, leftHandTransform, animator);
+        }
+
+        public Health GetTarget(){
+            return target;
         }
 
         private void Update()
@@ -56,7 +75,7 @@ namespace RPG.Combat{
 
         private bool GetIsInRange()
         {
-            return Vector3.Distance(this.transform.position, target.transform.position) < weaponRange;
+            return Vector3.Distance(this.transform.position, target.transform.position) < currentWeapon.GetRange();
         }
 
         public void Attack(GameObject combatTarget){
@@ -86,11 +105,48 @@ namespace RPG.Combat{
 
         // Animation Event
         void Hit(){
-            if(target != null){
-                target.TakeDamage(weaponDamage);
+            if(target == null) return;
+            float damage = GetComponent<BaseStats>().GetStat(Stat.Damage);
+            //float damage = 5f;
+            if(currentWeapon.HasProjectile()){
+                currentWeapon.LaunchProjectile(rightHandTransform, leftHandTransform, target, gameObject, damage);
+            }else{
+                target.TakeDamage(gameObject, damage);
             }
         }
 
+        void Shoot(){
+            Hit();
+        }
+
+        public object CaptureState()
+        {
+            return currentWeapon.name;
+        }
+
+        public void RestoreState(object state)
+        {
+            string weaponName = (string)state;
+            Weapon weapon = UnityEngine.Resources.Load<Weapon>(weaponName);
+            EquipWeapon(weapon);
+        }
+
+        public IEnumerable<float> GetAdditiveModifier(Stat stat)
+        {
+            if(stat == Stat.Damage){
+                yield return currentWeapon.GetDamage();
+            }
+        }
+
+        public IEnumerable<float> GetPercentageModifier(Stat stat)
+        {
+            if (stat == Stat.Damage)
+            {
+                yield return currentWeapon.GetPerentageBonus();
+            }
+        }
+
+        
     }
 
 }
