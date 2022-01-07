@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using GameDevTV.Utils;
 using RPG.Stats;
 using UnityEngine;
 
@@ -18,13 +19,30 @@ namespace RPG.Resources
 
         public event Action onLevelUp;
 
-        int currentLevel = 0;
+        LazyValue<int> currentLevel;
+
+        Experience experience;
+
+        private void Awake() {
+            experience = GetComponent<Experience>();
+            currentLevel = new LazyValue<int>(CalculateLevel);
+        }
 
         private void Start() {
-            currentLevel = CalculateLevel();
-            Experience experience = GetComponent<Experience>();
-            if(experience != null){
+            currentLevel.ForceInit();
+        }
+
+        private void OnEnable() {
+            if (experience != null)
+            {
                 experience.onExpereienceGained += UpdateLevel;
+            }
+        }
+
+        private void OnDisable() {
+            if (experience != null)
+            {
+                experience.onExpereienceGained -= UpdateLevel;
             }
         }
 
@@ -35,8 +53,8 @@ namespace RPG.Resources
 
         private void UpdateLevel() {
             int newLevel = CalculateLevel();
-            if(newLevel > currentLevel){
-                currentLevel = newLevel;
+            if(newLevel > currentLevel.value){
+                currentLevel.value = newLevel;
                 LevelUpEffect();
                 onLevelUp();
             }
@@ -85,15 +103,10 @@ namespace RPG.Resources
         }
 
         public int GetLevel(){
-            if(currentLevel < 1)
-            {
-                currentLevel = CalculateLevel();
-            }
-            return currentLevel;
+            return currentLevel.value;
         }
 
         public int CalculateLevel(){
-            Experience experience = GetComponent<Experience>();
             if(experience == null) return startingLevel;
             
             float currentEXP = experience.GetPoints();

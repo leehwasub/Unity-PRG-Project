@@ -21,7 +21,7 @@ namespace RPG.Saving
             }
             yield return SceneManager.LoadSceneAsync(buildIndex);
             RestoreState(state);
-        }
+        } 
 
         public void Save(string saveFile)
         {
@@ -47,6 +47,7 @@ namespace RPG.Saving
             {
                 return new Dictionary<string, object>();
             }
+            print(path);
             using (FileStream stream = File.Open(path, FileMode.Open))
             {
                 BinaryFormatter formatter = new BinaryFormatter();
