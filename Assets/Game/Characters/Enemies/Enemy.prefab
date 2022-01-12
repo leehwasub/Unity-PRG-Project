@@ -144,6 +144,34 @@ PrefabInstance:
       propertyPath: healthPoints
       value: 40
       objectReference: {fileID: 0}
+    - target: {fileID: 587604679844013361, guid: 33238b7da99d1294e8935cef559fa9e6, type: 3}
+      propertyPath: takeDamage.m_PersistentCalls.m_Calls.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 587604679844013361, guid: 33238b7da99d1294e8935cef559fa9e6, type: 3}
+      propertyPath: takeDamage.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 587604679844013361, guid: 33238b7da99d1294e8935cef559fa9e6, type: 3}
+      propertyPath: takeDamage.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 2446788973214763794}
+    - target: {fileID: 587604679844013361, guid: 33238b7da99d1294e8935cef559fa9e6, type: 3}
+      propertyPath: takeDamage.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 587604679844013361, guid: 33238b7da99d1294e8935cef559fa9e6, type: 3}
+      propertyPath: takeDamage.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: Aggrevate
+      objectReference: {fileID: 0}
+    - target: {fileID: 587604679844013361, guid: 33238b7da99d1294e8935cef559fa9e6, type: 3}
+      propertyPath: takeDamage.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
+      value: RPG.Control.AIController, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 587604679844013361, guid: 33238b7da99d1294e8935cef559fa9e6, type: 3}
+      propertyPath: takeDamage.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 895090169861103649, guid: 33238b7da99d1294e8935cef559fa9e6, type: 3}
       propertyPath: m_RootOrder
       value: 2
