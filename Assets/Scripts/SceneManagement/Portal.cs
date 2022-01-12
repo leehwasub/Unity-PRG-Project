@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.AI;
+using RPG.Control;
 
 namespace RPG.SceneManagement
 {
@@ -33,16 +34,23 @@ namespace RPG.SceneManagement
             }
 
             DontDestroyOnLoad(gameObject);
+            //Remove control
+            PlayerController playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+            playerController.enabled = false;
 
             Fader fader = FindObjectOfType<Fader>();
 
-            yield return fader.FadeOut(fadeOutTime);
+            fader.FadeOut(fadeOutTime);
 
             // Save Current Level
             SavingWrapper wrapper = FindObjectOfType<SavingWrapper>();
             wrapper.Save();
 
             yield return SceneManager.LoadSceneAsync(sceneToLoad);
+            // remove control
+            PlayerController newplayerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+            newplayerController.enabled = false;
+
 
             // Load Current Level
             wrapper.Load();
@@ -52,9 +60,12 @@ namespace RPG.SceneManagement
             Portal otherPortal = getOtherPortal();
             UpdatePlayer(otherPortal);
             wrapper.Save();
-            yield return new WaitForSeconds(fadeWaitTime);
-            yield return fader.FadeIn(fadeInTime);
 
+            yield return new WaitForSeconds(fadeWaitTime);
+            fader.FadeIn(fadeInTime);
+
+            //Restore control
+            newplayerController.enabled = true;
             Destroy(gameObject);
         }
 

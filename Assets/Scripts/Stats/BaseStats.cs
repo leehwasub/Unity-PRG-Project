@@ -5,7 +5,7 @@ using GameDevTV.Utils;
 using RPG.Stats;
 using UnityEngine;
 
-namespace RPG.Resources
+namespace RPG.Attributes
 {
     public class BaseStats : MonoBehaviour
     {

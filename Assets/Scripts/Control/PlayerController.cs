@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using RPG.Combat;
 using RPG.Core;
 using RPG.Movement;
-using RPG.Resources;
+using RPG.Attributes;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.EventSystems;
@@ -126,15 +126,21 @@ namespace RPG.Control
             NavMeshPath path = new NavMeshPath();
             bool hasPath = NavMesh.CalculatePath(transform.position, target, NavMesh.AllAreas, path);
             if(!hasPath) return false;
-            if(path.status != NavMeshPathStatus.PathComplete)return false;
-            if(GetPathLength(path) > maxNavPathLength) return false; 
+            if(path.status != NavMeshPathStatus.PathComplete) return false;
+            if(GetPathLength(path) > maxNavPathLength) return false;
 
             return true;
         }
 
         private float GetPathLength(NavMeshPath path)
         {
-            return 0f;
+            float total = 0.0f;
+            if(path.corners.Length < 2) return total;
+            for (int i = 0; i < path.corners.Length - 1; i++)
+            {
+                total += Vector3.Distance(path.corners[i], path.corners[i + 1]);
+            }
+            return total;
         }
 
         private CursorMapping GetCursorMapping(CursorType type){

@@ -2,8 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using RPG.Core;
-using RPG.Resources;
+using RPG.Attributes;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace RPG.Combat
 {
@@ -15,6 +16,7 @@ namespace RPG.Combat
         [SerializeField] float maxLifeTime = 10;
         [SerializeField] GameObject[] destroyOnHit = null;
         [SerializeField] float lifeAfterImpact = 2;
+        [SerializeField] UnityEvent onHit; 
 
         Health target;
         GameObject instigator;
@@ -56,6 +58,8 @@ namespace RPG.Combat
 
             // trail disappear
             speed = 0;
+
+            onHit.Invoke();
 
             if(hitEffect != null){
                 Instantiate(hitEffect, GetAimLocation(), transform.rotation);

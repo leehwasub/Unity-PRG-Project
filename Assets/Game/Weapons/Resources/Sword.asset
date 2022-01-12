@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9690e3e6b5248a1498e5a5adba5fcd3d, type: 3}
+  m_Script: {fileID: 11500000, guid: bc4c396d87676e14699ea26577ac8e68, type: 3}
   m_Name: Sword
   m_EditorClassIdentifier: 
   animatorOverride: {fileID: 22100000, guid: 9c60e0500b1d2a24ca1bc06d7ddcb7fb, type: 2}
-  equippedPrefab: {fileID: 8110721276064044525, guid: e265cd2401226ed4298494c940eee856, type: 3}
+  equippedPrefab: {fileID: 6745504003658301621, guid: e265cd2401226ed4298494c940eee856, type: 3}
   weaponDamage: 10
-  percentageBonus: 10
+  percentageBonus: 0
   weaponRange: 2
   isRightHanded: 1
   projectile: {fileID: 0}

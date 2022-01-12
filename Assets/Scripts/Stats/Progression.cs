@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using RPG.Stats;
 using UnityEngine;
 
-namespace RPG.Resources
+namespace RPG.Attributes
 {
     [CreateAssetMenu(fileName = "Progression", menuName = "RPG Project/Progression", order = 0)]
     public class Progression : ScriptableObject

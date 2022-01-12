@@ -2,7 +2,7 @@ using RPG.Movement;
 using UnityEngine;
 using RPG.Core;
 using RPG.Saving;
-using RPG.Resources;
+using RPG.Attributes;
 using RPG.Stats;
 using System.Collections.Generic;
 using GameDevTV.Utils;
@@ -15,37 +15,40 @@ namespace RPG.Combat{
         [SerializeField] float timeBetweenAttacks = 2f;
         [SerializeField] Transform rightHandTransform;
         [SerializeField] Transform leftHandTransform;
-        [SerializeField] Weapon defaultWeapon;
+        [SerializeField] WeaponConfig defaultWeapon;
         [SerializeField] string defaultWeaponName = "Unarmed";
 
         Health target;
         float timeSinceLastAttack = Mathf.Infinity;
+        WeaponConfig currentWeaponConfig;
         LazyValue<Weapon> currentWeapon;
 
         private void Awake() {
+            currentWeaponConfig = defaultWeapon;
             currentWeapon = new LazyValue<Weapon>(SetupDefaultWeapon);
         }
 
         private Weapon SetupDefaultWeapon()
         {
-            AttachWeapon(defaultWeapon);
-            return defaultWeapon;
+            return AttachWeapon(defaultWeapon);
         }
 
         private void Start() {
             currentWeapon.ForceInit();
         }
 
-        public void EquipWeapon(Weapon weapon)
+        public void EquipWeapon(WeaponConfig weapon)
         {
-            currentWeapon.value = weapon;
-            AttachWeapon(weapon);
+            currentWeaponConfig = weapon;
+            currentWeapon.value = AttachWeapon(weapon);
+            Debug.Log(currentWeapon.value);
         }
 
-        private void AttachWeapon(Weapon weapon)
+        private Weapon AttachWeapon(WeaponConfig weapon)
         {
+            Debug.Log("AttachWeapon");
             Animator animator = GetComponent<Animator>();
-            weapon.Spawn(rightHandTransform, leftHandTransform, animator);
+            return weapon.Spawn(rightHandTransform, leftHandTransform, animator);
         }
 
         public Health GetTarget(){
@@ -89,7 +92,7 @@ namespace RPG.Combat{
 
         private bool GetIsInRange()
         {
-            return Vector3.Distance(this.transform.position, target.transform.position) < currentWeapon.value.GetRange();
+            return Vector3.Distance(this.transform.position, target.transform.position) < currentWeaponConfig.GetRange();
         }
 
         public void Attack(GameObject combatTarget){
@@ -121,9 +124,14 @@ namespace RPG.Combat{
         void Hit(){
             if(target == null) return;
             float damage = GetComponent<BaseStats>().GetStat(Stat.Damage);
+
+            if(currentWeapon.value != null){
+                currentWeapon.value.OnHit();
+            }
+
             //float damage = 5f;
-            if(currentWeapon.value.HasProjectile()){
-                currentWeapon.value.LaunchProjectile(rightHandTransform, leftHandTransform, target, gameObject, damage);
+            if(currentWeaponConfig.HasProjectile()){
+                currentWeaponConfig.LaunchProjectile(rightHandTransform, leftHandTransform, target, gameObject, damage);
             }else{
                 target.TakeDamage(gameObject, damage);
             }
@@ -135,20 +143,20 @@ namespace RPG.Combat{
 
         public object CaptureState()
         {
-            return currentWeapon.value.name;
+            return currentWeaponConfig.name;
         }
 
         public void RestoreState(object state)
         {
             string weaponName = (string)state;
-            Weapon weapon = UnityEngine.Resources.Load<Weapon>(weaponName);
+            WeaponConfig weapon = UnityEngine.Resources.Load<WeaponConfig>(weaponName);
             EquipWeapon(weapon);
         }
 
         public IEnumerable<float> GetAdditiveModifier(Stat stat)
         {
             if(stat == Stat.Damage){
-                yield return currentWeapon.value.GetDamage();
+                yield return currentWeaponConfig.GetDamage();
             }
         }
 
@@ -156,7 +164,7 @@ namespace RPG.Combat{
         {
             if (stat == Stat.Damage)
             {
-                yield return currentWeapon.value.GetPerentageBonus();
+                yield return currentWeaponConfig.GetPerentageBonus();
             }
         }
 
